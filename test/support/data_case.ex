@@ -1,4 +1,4 @@
-defmodule Mucking.DataCase do
+defmodule Muck.DataCase do
   @moduledoc """
   This module defines the setup for tests requiring
   access to the application's data layer.
@@ -10,7 +10,7 @@ defmodule Mucking.DataCase do
   we enable the SQL sandbox, so changes done to the database
   are reverted at the end of every test. If you are using
   PostgreSQL, you can even run database tests asynchronously
-  by setting `use Mucking.DataCase, async: true`, although
+  by setting `use Muck.DataCase, async: true`, although
   this option is not recommended for other databases.
   """
 
@@ -18,17 +18,17 @@ defmodule Mucking.DataCase do
 
   using do
     quote do
-      alias Mucking.Repo
+      alias Muck.Repo
 
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
-      import Mucking.DataCase
+      import Muck.DataCase
     end
   end
 
   setup tags do
-    Mucking.DataCase.setup_sandbox(tags)
+    Muck.DataCase.setup_sandbox(tags)
     :ok
   end
 
@@ -36,7 +36,7 @@ defmodule Mucking.DataCase do
   Sets up the sandbox based on the test tags.
   """
   def setup_sandbox(tags) do
-    pid = Ecto.Adapters.SQL.Sandbox.start_owner!(Mucking.Repo, shared: not tags[:async])
+    pid = Ecto.Adapters.SQL.Sandbox.start_owner!(Muck.Repo, shared: not tags[:async])
     on_exit(fn -> Ecto.Adapters.SQL.Sandbox.stop_owner(pid) end)
   end
 

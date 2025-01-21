@@ -1,4 +1,4 @@
-# Mucking
+# Muck
 
 To start your Phoenix server:
 

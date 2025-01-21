@@ -7,20 +7,20 @@
 # General application configuration
 import Config
 
-config :mucking,
-  ecto_repos: [Mucking.Repo],
+config :muck,
+  ecto_repos: [Muck.Repo],
   generators: [timestamp_type: :utc_datetime]
 
 # Configures the endpoint
-config :mucking, MuckingWeb.Endpoint,
+config :muck, MuckWeb.Endpoint,
   url: [host: "localhost"],
   adapter: Bandit.PhoenixAdapter,
   render_errors: [
-    formats: [html: MuckingWeb.ErrorHTML, json: MuckingWeb.ErrorJSON],
+    formats: [html: MuckWeb.ErrorHTML, json: MuckWeb.ErrorJSON],
     layout: false
   ],
-  pubsub_server: Mucking.PubSub,
-  live_view: [signing_salt: "JAJl2ZYd"]
+  pubsub_server: Muck.PubSub,
+  live_view: [signing_salt: "3/a2bAUX"]
 
 # Configures the mailer
 #
@@ -29,7 +29,29 @@ config :mucking, MuckingWeb.Endpoint,
 #
 # For production it's recommended to configure a different adapter
 # at the `config/runtime.exs`.
-config :mucking, Mucking.Mailer, adapter: Swoosh.Adapters.Local
+config :muck, Muck.Mailer, adapter: Swoosh.Adapters.Local
+
+# Configure esbuild (the version is required)
+config :esbuild,
+  version: "0.17.11",
+  muck: [
+    args:
+      ~w(js/app.js --bundle --target=es2017 --outdir=../priv/static/assets --external:/fonts/* --external:/images/*),
+    cd: Path.expand("../assets", __DIR__),
+    env: %{"NODE_PATH" => Path.expand("../deps", __DIR__)}
+  ]
+
+# Configure tailwind (the version is required)
+config :tailwind,
+  version: "3.4.3",
+  muck: [
+    args: ~w(
+      --config=tailwind.config.js
+      --input=css/app.css
+      --output=../priv/static/assets/app.css
+    ),
+    cd: Path.expand("../assets", __DIR__)
+  ]
 
 # Configures Elixir's Logger
 config :logger, :console,

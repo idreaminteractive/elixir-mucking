@@ -1,8 +1,8 @@
 import Config
 
 # Configure your database
-config :mucking, Mucking.Repo,
-  database: Path.expand("../mucking_dev.db", __DIR__),
+config :muck, Muck.Repo,
+  database: Path.expand("../muck_dev.db", __DIR__),
   pool_size: 5,
   stacktrace: true,
   show_sensitive_data_on_connection_error: true
@@ -13,15 +13,18 @@ config :mucking, Mucking.Repo,
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we can use it
 # to bundle .js and .css sources.
-config :mucking, MuckingWeb.Endpoint,
+config :muck, MuckWeb.Endpoint,
   # Binding to loopback ipv4 address prevents access from other machines.
   # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
   http: [ip: {127, 0, 0, 1}, port: 4000],
   check_origin: false,
   code_reloader: true,
   debug_errors: true,
-  secret_key_base: "0WLGN2Zw0mr2kqQpdOOqPQv5U4lzWmesH/piuSXvxoKf+byQ51ORhduUhniIpu/w",
-  watchers: []
+  secret_key_base: "nGblkgKeiiMWcEr1T+Vc8pti9o1ysxjXC0LsCvyVTrhH3A+v8I1QJjBZiN9AItmZ",
+  watchers: [
+    esbuild: {Esbuild, :install_and_run, [:muck, ~w(--sourcemap=inline --watch)]},
+    tailwind: {Tailwind, :install_and_run, [:muck, ~w(--watch)]}
+  ]
 
 # ## SSL Support
 #
@@ -47,17 +50,17 @@ config :mucking, MuckingWeb.Endpoint,
 # different ports.
 
 # Watch static and templates for browser reloading.
-config :mucking, MuckingWeb.Endpoint,
+config :muck, MuckWeb.Endpoint,
   live_reload: [
     patterns: [
       ~r"priv/static/(?!uploads/).*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
-      ~r"lib/mucking_web/(controllers|live|components)/.*(ex|heex)$"
+      ~r"lib/muck_web/(controllers|live|components)/.*(ex|heex)$"
     ]
   ]
 
 # Enable dev routes for dashboard and mailbox
-config :mucking, dev_routes: true
+config :muck, dev_routes: true
 
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"
