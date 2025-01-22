@@ -7,14 +7,11 @@ tasks:
     - command: |
           mix archive.install --force hex phx_new
           mix deps.get
-          mkdir data
-          mix phx.server
 
 vscode:
     extensions:
         - redhat.vscode-yaml
         - yy0931.vscode-sqlite3-editor
         - gruntfuggly.todo-tree
-        # - elixir-tools.elixir-tools
         - phoenixframework.phoenix
         - jakebecker.elixir-ls
