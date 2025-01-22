@@ -1,8 +1,26 @@
 defmodule MuckWeb.JokeLive.Video do
+require Logger
   use MuckWeb, :live_view
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, socket}
+    Process.send_after(self(), :ping, 2000)
+
+    {:ok, assign(socket, %{message: 0})}
+  end
+
+  @impl true
+
+  def handle_info(:ping, socket) do
+    %{message: mes} = socket.assigns
+    Process.send_after(self(), :ping, 2000)
+    {:noreply, assign(socket, %{message: mes + 1})}
+  end
+
+  @impl true
+  def handle_info(_msg, socket) do
+# unhandled message
+    {:noreply, socket}
+
   end
 end
