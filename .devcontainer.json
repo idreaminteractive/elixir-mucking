@@ -3,7 +3,7 @@
         "dockerfile": ".gitpod.Dockerfile"
     },
     "remoteEnv": {
-        // "DOPPLER_TOKEN": "dp.st.dev_local.uZ9EZ6c2gpMrBAOBNb3vE4KZkV1YdxlGgMeIrNgPqrC"
+        
     },
     "forwardPorts": [
         8080
