@@ -4,8 +4,14 @@ defmodule MuckWeb.JokeLiveTest do
   import Phoenix.LiveViewTest
   import Muck.JokesFixtures
 
+  import Muck.AccountsFixtures
+
   @create_attrs %{author: "some author", setup: "some setup", punchline: "some punchline"}
-  @update_attrs %{author: "some updated author", setup: "some updated setup", punchline: "some updated punchline"}
+  @update_attrs %{
+    author: "some updated author",
+    setup: "some updated setup",
+    punchline: "some updated punchline"
+  }
   @invalid_attrs %{author: nil, setup: nil, punchline: nil}
 
   defp create_joke(_) do
@@ -13,18 +19,23 @@ defmodule MuckWeb.JokeLiveTest do
     %{joke: joke}
   end
 
-  describe "Index" do
-    setup [:create_joke]
+  defp create_user(_) do
+    user = user_fixture()
+    %{user: user}
+  end
 
-    test "lists all jokes", %{conn: conn, joke: joke} do
-      {:ok, _index_live, html} = live(conn, ~p"/jokes")
+  describe "Index" do
+    setup [:create_joke, :create_user]
+
+    test "lists all jokes", %{conn: conn, user: user, joke: joke} do
+      {:ok, _index_live, html} = conn |> log_in_user(user) |> live(~p"/jokes")
 
       assert html =~ "Listing Jokes"
       assert html =~ joke.author
     end
 
-    test "saves new joke", %{conn: conn} do
-      {:ok, index_live, _html} = live(conn, ~p"/jokes")
+    test "saves new joke", %{conn: conn, user: user} do
+      {:ok, index_live, _html} = conn |> log_in_user(user) |> live(~p"/jokes")
 
       assert index_live |> element("a", "New Joke") |> render_click() =~
                "New Joke"
@@ -46,8 +57,8 @@ defmodule MuckWeb.JokeLiveTest do
       assert html =~ "some author"
     end
 
-    test "updates joke in listing", %{conn: conn, joke: joke} do
-      {:ok, index_live, _html} = live(conn, ~p"/jokes")
+    test "updates joke in listing", %{conn: conn, joke: joke, user: user} do
+      {:ok, index_live, _html} = conn |> log_in_user(user) |> live(~p"/jokes")
 
       assert index_live |> element("#jokes-#{joke.id} a", "Edit") |> render_click() =~
                "Edit Joke"
@@ -69,8 +80,8 @@ defmodule MuckWeb.JokeLiveTest do
       assert html =~ "some updated author"
     end
 
-    test "deletes joke in listing", %{conn: conn, joke: joke} do
-      {:ok, index_live, _html} = live(conn, ~p"/jokes")
+    test "deletes joke in listing", %{conn: conn, user: user, joke: joke} do
+      {:ok, index_live, _html} = conn |> log_in_user(user) |> live(~p"/jokes")
 
       assert index_live |> element("#jokes-#{joke.id} a", "Delete") |> render_click()
       refute has_element?(index_live, "#jokes-#{joke.id}")
@@ -78,17 +89,17 @@ defmodule MuckWeb.JokeLiveTest do
   end
 
   describe "Show" do
-    setup [:create_joke]
+    setup [:create_joke, :create_user]
 
-    test "displays joke", %{conn: conn, joke: joke} do
-      {:ok, _show_live, html} = live(conn, ~p"/jokes/#{joke}")
+    test "displays joke", %{conn: conn, user: user, joke: joke} do
+      {:ok, _show_live, html} = conn |> log_in_user(user) |> live(~p"/jokes/#{joke}")
 
       assert html =~ "Show Joke"
       assert html =~ joke.author
     end
 
-    test "updates joke within modal", %{conn: conn, joke: joke} do
-      {:ok, show_live, _html} = live(conn, ~p"/jokes/#{joke}")
+    test "updates joke within modal", %{conn: conn, user: user, joke: joke} do
+      {:ok, show_live, _html} = conn |> log_in_user(user) |> live(~p"/jokes/#{joke}")
 
       assert show_live |> element("a", "Edit") |> render_click() =~
                "Edit Joke"

@@ -35,7 +35,12 @@ defmodule Muck.JokesTest do
 
     test "update_joke/2 with valid data updates the joke" do
       joke = joke_fixture()
-      update_attrs = %{author: "some updated author", setup: "some updated setup", punchline: "some updated punchline"}
+
+      update_attrs = %{
+        author: "some updated author",
+        setup: "some updated setup",
+        punchline: "some updated punchline"
+      }
 
       assert {:ok, %Joke{} = joke} = Jokes.update_joke(joke, update_attrs)
       assert joke.author == "some updated author"
