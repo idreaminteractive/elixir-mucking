@@ -1,0 +1,26 @@
+{    
+    "build": {
+        "dockerfile": ".gitpod.Dockerfile"
+    },
+    "remoteEnv": {
+        // "DOPPLER_TOKEN": "dp.st.dev_local.uZ9EZ6c2gpMrBAOBNb3vE4KZkV1YdxlGgMeIrNgPqrC"
+    },
+    "forwardPorts": [
+        8080
+    ],
+    "features": {
+        "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "redhat.vscodeyaml",
+                "formulahendry.auto-close-tag",
+                "yy0931.vscode-sqlite3-editor",
+                "gruntfuggly.todo-tree",
+                "phoenixframework.phoenix",
+                "jakebecker.elixir-ls"
+            ]
+        }
+    }
+}
