@@ -1,6 +1,6 @@
 {    
     "build": {
-        "dockerfile": ".gitpod.Dockerfile"
+        "dockerfile": "devcontainer.Dockerfile"
     },
     "remoteEnv": {
         
