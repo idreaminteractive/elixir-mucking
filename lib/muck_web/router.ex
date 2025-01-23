@@ -73,6 +73,8 @@ defmodule MuckWeb.Router do
       live("/jokes/:id", JokeLive.Show, :show)
       live("/jokes/:id/show/edit", JokeLive.Show, :edit)
       live("/video", JokeLive.Video, :live)
+      live("/streamer", JokeLive.StreamerLive, :live)
+      live("/viewer", JokeLive.StreamViewer, :live)
     end
   end
 

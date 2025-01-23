@@ -2,6 +2,8 @@ defmodule MuckWeb.JokeLive.Video do
 require Logger
   use MuckWeb, :live_view
 
+   alias LiveExWebRTC.Publisher
+
   @impl true
   def mount(_params, _session, socket) do
     Process.send_after(self(), :ping, 2000)
@@ -19,8 +21,6 @@ require Logger
 
   @impl true
   def handle_info(_msg, socket) do
-# unhandled message
     {:noreply, socket}
-
   end
 end
